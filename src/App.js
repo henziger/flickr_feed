@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import './App.css';
 
 import ImageListItem from './ImageListItem.js';
@@ -29,17 +30,18 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Flickr Public Feed</h1>
         </header>
-        <ul>
-          { this.state.items.map(
-            image => <ImageListItem key={image.link}
-                                    media={image.media.m} title={image.title}
-                                    authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
-                                    author={image.author}
-                                    published={image.published}
-                                    link={image.link}
-            />)}
-        </ul>
-
+        <div className="imageList">
+          <ul>
+            { this.state.items.map(
+              image => <ImageListItem key={image.link}
+                                      media={image.media.m} title={image.title}
+                                      authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
+                                      author={image.author}
+                                      published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
+                                      link={image.link}
+              />)}
+          </ul>
+        </div>
       </div>
     );
   }
