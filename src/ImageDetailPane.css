@@ -1,0 +1,56 @@
+.imageHeaderContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.imageDetailTitle {
+    width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+}
+
+.backButton {
+    margin-right: 20px;
+    margin-top: 20px;
+    height: 20%;
+}
+
+.imageBodyContainer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.imageDetailPreview {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.imageDescription {
+    flex-shrink: 2;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    float: left;
+    margin-right: 5px;
+}

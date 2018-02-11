@@ -1,14 +1,15 @@
 .container {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
     justify-content: flex-start;
-    align-items: stretch;
 }
 
 .imageItem {
     border-width: 2px;
     border-bottom: 2px #646464 solid;
+}
+
+.imageSummary {
+    flex-shrink: 2;
 }
 
 .imageSummary > div > p {

@@ -1,31 +1,21 @@
 import React, { Component } from 'react';
 import './ImageListItem.css';
-
-// Assumes that all author elements from the Flickr API
-// have the format of 'email@example.com ("FirstName LastName")'
-function getAuthorName(authorData) {
-  return authorData.split(" (\"")[1].replace("\")", "")
-}
+import getAuthorName from './helpers';
 
 class ImageListItem extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = props;
-  }
 
   render () {
     return (
       <div className="container imageItem">
-        <div className="imagePreview">
-          <a href="#detail"><img src={this.state.media} alt={this.state.title}/></a>
+        <div className="imagePreview" onClick={this.props.setImage}>
+          <img src={this.props.media} alt={this.props.title}/>
         </div>
         <div className="imageSummary">
-          <a href="#detail"><h2 className="imageTitle">{this.state.title}</h2></a>
+          <div onClick={this.props.setImage}><h2 className="imageTitle">{this.props.title}</h2></div>
           <div className="container">
-            <p>By <a href={this.state.authorUrl}>{getAuthorName(this.state.author)}</a></p>
-            <p>Published: {this.state.published}</p>
-            <p><a href={this.state.link}>View on Flickr</a></p>
+            <p>By <a href={this.props.authorUrl}>{getAuthorName(this.props.author)}</a></p>
+            <p>Published: {this.props.published}</p>
+            <p><a href={this.props.link}>View on Flickr</a></p>
           </div>
         </div>
       </div>
