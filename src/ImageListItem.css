@@ -8,10 +8,6 @@
     border-bottom: 2px #646464 solid;
 }
 
-.imageSummary {
-    flex-shrink: 2;
-}
-
 .imageSummary > div > p {
     float: left;
     margin-right: 40px;

@@ -33,9 +33,9 @@ class ImageDetailPane extends Component {
             <div>
               <div className="tag">Tags:</div>
               {
-                this.props.tags.map((tag) => {
+                this.props.tags.map((tag, index) => {
                   return (
-                    <div className="tag">
+                    <div className="tag" key={index}>
                       <a href={`https://www.flickr.com/photos/tags/${tag}`}>{tag}</a>
                     </div>
                   )

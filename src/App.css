@@ -20,7 +20,7 @@
         font-size: large;
     }
 
-    .imageList, .imageDetailPane {
+    .image-list, .image-detail-pane {
         max-width: 600px;
     }
 
@@ -34,9 +34,11 @@
 
     .App-header {
         background-color: #222;
-        height: 150px;
+        height: 80px;
         padding: 20px;
         color: white;
+        display: flex;
+        justify-content: flex-start;
     }
 
     .App-title {
@@ -47,18 +49,50 @@
         font-size: large;
     }
 
-    .imageList, .imageDetailPane {
+    .image-list, .image-detail-pane {
         max-width: 900px;
     }
 }
 
-.imageList, .imageDetailPane {
+.image-list, .image-detail-pane {
     margin-left: auto;
     margin-right: auto;
     margin-top: 40px;
     padding: 0;
     width: 80%;
     border: 2px black solid;
+}
+
+.align-header {
+    margin: auto 40px auto auto;
+    padding: 10px;
+}
+
+.search-container {
+    margin: auto;
+    padding: 10px;
+}
+
+.search-container input {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+}
+
+.search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background: #ccc;
 }
 
 ul {

@@ -14,15 +14,27 @@ class App extends Component {
     this.state = {
       items: [],
       image: undefined,
+      query: "",
     };
 
-    this.handler = this.handler.bind(this)
+    this.handler = this.handler.bind(this);
+    this.setQuery = this.setQuery.bind(this);
+    this.makeQuery = this.makeQuery.bind(this);
   }
 
   handler(index) {this.setState({image: index})}
 
-  componentDidMount() {
-    axios.get("https://api.flickr.com/services/feeds/photos_public.gne?tags=potato&tagmode=all&format=json&nojsoncallback=true")
+  setQuery(event) {
+    this.setState({query: event.target.value});
+  }
+
+  makeQuery(event) {
+    this.updateImageFeed();
+    event.preventDefault();
+  }
+
+  updateImageFeed() {
+    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.state.query || "potato"}&tagmode=all&format=json&nojsoncallback=true`)
       .then((response) => {
         this.setState({
           items: response.data.items
@@ -30,7 +42,12 @@ class App extends Component {
       })
       .catch((err) => {
         console.log(err)
-      })
+      });
+    return false;
+  }
+
+  componentDidMount() {
+    this.updateImageFeed();
   }
 
   render() {
@@ -38,7 +55,7 @@ class App extends Component {
     if (this.state.image !== undefined) {
       let image = this.state.items[this.state.image];
       main =
-        <div className="imageDetailPane">
+        <div className="image-detail-pane">
           <ImageDetailPane media={image.media.m} title={image.title}
                            authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
                            author={image.author}
@@ -50,7 +67,7 @@ class App extends Component {
         </div>
     } else {
       main =
-        <div className="imageList">
+        <div className="image-list">
         <ul>
           { this.state.items.map((image, index) =>
             <ImageListItem
@@ -69,7 +86,15 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Flickr Public Feed</h1>
+          <h1 className="App-title align-header">Flickr Public Feed</h1>
+          <div className="search-container">
+            <form onSubmit={this.makeQuery}>
+              <input className="search-field" type="text" value={this.state.query} onChange={this.setQuery} placeholder={"Search"}/>
+              <button type="submit">
+                <i className="fa fa-search" />
+              </button>
+            </form>
+          </div>
         </header>
         {main}
       </div>
