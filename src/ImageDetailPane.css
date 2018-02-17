@@ -17,7 +17,20 @@
 .backButton {
     margin-right: 20px;
     margin-top: 20px;
+    padding: 5px 20px;
     height: 20%;
+    font-size: 20px;
+    cursor: pointer;
+    border: 2px solid cornflowerblue;
+    border-radius: 8px;
+    background-color: white;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.backButton:hover {
+    background-color: cornflowerblue; /* Green */
+    color: white;
 }
 
 .imageBodyContainer {

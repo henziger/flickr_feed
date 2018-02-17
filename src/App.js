@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       items: [],
       image: undefined,
+      image_links: new Set(),
       query: "",
     };
 
@@ -28,16 +29,35 @@ class App extends Component {
     this.setState({query: event.target.value});
   }
 
+  getQuery() {
+    return this.state.query || "potato";
+  }
+
   makeQuery(event) {
     this.updateImageFeed();
     event.preventDefault();
   }
 
   updateImageFeed() {
-    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.state.query || "potato"}&tagmode=all&format=json&nojsoncallback=true`)
+    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
       .then((response) => {
         this.setState({
-          items: response.data.items
+          items: response.data.items,
+          image_links: new Set(response.data.items.map(item => item.link))
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    return false;
+  }
+
+  extendImageFeed() {
+    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
+      .then((response) => {
+        this.setState({
+          items: [...response.data.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
+          image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)])
         })
       })
       .catch((err) => {
@@ -68,20 +88,23 @@ class App extends Component {
         </div>
     } else {
       main =
-        <div className="image-list">
-        <ul>
-          { this.state.items.map((image, index) =>
-            <ImageListItem
-              key={index}
-              media={image.media.m} title={image.title}
-              authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
-              author={image.author}
-              published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
-              link={image.link}
-              setImage={() => this.handler(index)}
-            />)}
-        </ul>
-      </div>
+        <div>
+          <div className="update-feed-button" onClick={() => this.extendImageFeed()}>Update feed</div>
+          <div className="image-list">
+            <ul>
+              { this.state.items.map((image, index) =>
+                <ImageListItem
+                  key={index}
+                  media={image.media.m} title={image.title}
+                  authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
+                  author={image.author}
+                  published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
+                  link={image.link}
+                  setImage={() => this.handler(index)}
+                />)}
+            </ul>
+          </div>
+        </div>
     }
 
     return (
