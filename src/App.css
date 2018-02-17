@@ -1,10 +1,5 @@
 /* Small devices (800px and lower) */
 @media (max-width: 800px) {
-
-    .App {
-        text-align: left;
-    }
-
     .App-header {
         background-color: #222;
         height: 150px;
@@ -28,9 +23,6 @@
 
 /* Medium devices (800px and up) */
 @media (min-width: 800px) {
-    .App {
-        text-align: left;
-    }
 
     .App-header {
         background-color: #222;
@@ -54,11 +46,16 @@
     }
 }
 
+.App {
+    text-align: left;
+    background-color: #e6ecf0;
+}
+
 .image-list, .image-detail-pane {
-    margin: 40px auto;
-    padding: 0;
+    margin: 40px auto 0 auto;
+    padding-bottom: 40px;
     width: 80%;
-    border: 2px black solid;
+    background-color: #e6ecf0;
 }
 
 .align-header {
@@ -99,13 +96,19 @@ ul {
     list-style-type: none;
 }
 
-.update-feed-button {
-    margin: 20px auto;
-    width: 20%;
-    padding: 10px 20px;
+.new-images-button {
+    margin: auto;
+    padding: 20px 0;
+    width: 100%;
     border: none;
     cursor: pointer;
-    background-color: cornflowerblue;
-    border-radius: 8px;
+    background-color: #f5f8fa;
+    color: cornflowerblue;
     text-align: center;
+    border-bottom: 2px #ddd solid;
+}
+
+.new-images-button:hover {
+    border: 1px solid #ccd6dd;
+    background-color: #e6ecf0;
 }

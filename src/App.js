@@ -15,6 +15,7 @@ class App extends Component {
       items: [],
       image: undefined,
       image_links: new Set(),
+      new_images: 0,
       query: "",
     };
 
@@ -34,11 +35,11 @@ class App extends Component {
   }
 
   makeQuery(event) {
-    this.updateImageFeed();
+    this.getImageFeed();
     event.preventDefault();
   }
 
-  updateImageFeed() {
+  getImageFeed() {
     axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
       .then((response) => {
         this.setState({
@@ -57,7 +58,8 @@ class App extends Component {
       .then((response) => {
         this.setState({
           items: [...response.data.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
-          image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)])
+          image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)]),
+          new_images: 0,
         })
       })
       .catch((err) => {
@@ -66,13 +68,45 @@ class App extends Component {
     return false;
   }
 
+  checkForNewImages() {
+    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
+      .then((response) => {
+
+        let i = this.state.new_images;
+        response.data.items.forEach(item => {
+          if (!this.state.image_links.has(item.link)) {
+            i++;
+          }
+        });
+
+        this.setState({
+          new_images: i,
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+
   componentDidMount() {
-    this.updateImageFeed();
+    this.getImageFeed();
     this.searchBar.focus();
+    setInterval(() => this.checkForNewImages(), 1000)
   }
 
   render() {
-    let main = null;
+    let main;
+    let new_images_link;
+
+    if (this.state.new_images) {
+      new_images_link =
+        <li>
+          <div className="new-images-button" onClick={() => this.extendImageFeed()}>
+            {this.state.new_images} new image{this.state.new_images > 1 ? "s" : ""}
+          </div>
+        </li>
+    }
+
     if (this.state.image !== undefined) {
       let image = this.state.items[this.state.image];
       main =
@@ -89,9 +123,9 @@ class App extends Component {
     } else {
       main =
         <div>
-          <div className="update-feed-button" onClick={() => this.extendImageFeed()}>Update feed</div>
           <div className="image-list">
             <ul>
+              { new_images_link }
               { this.state.items.map((image, index) =>
                 <ImageListItem
                   key={index}

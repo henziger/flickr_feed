@@ -4,8 +4,13 @@
 }
 
 .image-item {
+    background-color: #fff;
     border-width: 2px;
-    border-bottom: 2px #646464 solid;
+    border-bottom: 2px #cccccc solid;
+}
+
+.image-item:hover {
+    background-color: #f5f8fa;
 }
 
 .image-summary {
@@ -25,6 +30,7 @@
     align-items: center;
     justify-content: center;
     background: #222222;
+    cursor: pointer;
 }
 
 .image-title {
@@ -32,6 +38,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .image-author {
