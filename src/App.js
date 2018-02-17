@@ -48,6 +48,7 @@ class App extends Component {
 
   componentDidMount() {
     this.updateImageFeed();
+    this.searchBar.focus();
   }
 
   render() {
@@ -89,7 +90,10 @@ class App extends Component {
           <h1 className="App-title align-header">Flickr Public Feed</h1>
           <div className="search-container">
             <form onSubmit={this.makeQuery}>
-              <input className="search-field" type="text" value={this.state.query} onChange={this.setQuery} placeholder={"Search"}/>
+              <input className="search-field" type="text" value={this.state.query} onChange={this.setQuery}
+                     placeholder={"Search"}
+                     ref={(input) => { this.searchBar = input; }}
+              />
               <button type="submit">
                 <i className="fa fa-search" />
               </button>
