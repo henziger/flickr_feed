@@ -3,37 +3,44 @@
     justify-content: flex-start;
 }
 
-.imageItem {
+.image-item {
     border-width: 2px;
     border-bottom: 2px #646464 solid;
 }
 
-.imageSummary > div > p {
+.image-summary {
+    margin-left: 40px;
+}
+.image-meta > div {
     float: left;
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
-.imagePreview {
+.image-preview {
     position: relative;
     width: 200px;
     height: 120px;
-    overflow: hidden;
-    margin-right: 40px;
     border-right: 2px #646464 solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222222;
 }
 
-.imageTitle {
-    width: 600px;
+.image-title {
+    width: 500px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.image-author {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 img {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
 }
