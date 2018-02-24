@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import './App.css';
 
@@ -41,7 +40,10 @@ class App extends Component {
   }
 
   makeApiRequest(onOkay) {
-    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
+    fetch(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
+      .then(results => {
+        return results.json();
+      })
       .then(response => {
         onOkay(response)
       })
@@ -53,8 +55,8 @@ class App extends Component {
   getImageFeed() {
     this.makeApiRequest(response => {
       this.setState({
-        items: response.data.items,
-        image_links: new Set(response.data.items.map(item => item.link))
+        items: response.items,
+        image_links: new Set(response.items.map(item => item.link))
       })
     })
   }
@@ -62,8 +64,8 @@ class App extends Component {
   extendImageFeed() {
     this.makeApiRequest(response => {
       this.setState({
-        items: [...response.data.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
-        image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)]),
+        items: [...response.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
+        image_links: new Set([...this.state.image_links, ...response.items.map(item => item.link)]),
         new_images: 0,
       })
     })
@@ -76,7 +78,7 @@ class App extends Component {
     this.makeApiRequest(response => {
 
         let i = 0;
-        response.data.items.forEach(item => {
+        response.items.forEach(item => {
           if (!this.state.image_links.has(item.link)) {
             i++;
           }
