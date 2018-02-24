@@ -4,7 +4,7 @@ node_js:
 sudo: false
 before_install:
 - openssl aes-256-cbc -K $encrypted_390c3d1db510_key -iv $encrypted_390c3d1db510_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
+  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 addons:
   ssh_known_hosts: henziger.se
 cache:
