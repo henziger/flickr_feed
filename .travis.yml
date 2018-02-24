@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+- stable
+sudo: false
+before_install:
+- openssl aes-256-cbc -K $encrypted_390c3d1db510_key -iv $encrypted_390c3d1db510_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+addons:
+  ssh_known_hosts: henziger.se
+cache:
+  directories:
+  - node_modules
+script:
+- npm install
+- npm run build
+before_deploy:
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/build/ travis@henziger.se:/var/www/flickr
+  on: 
+branch: master

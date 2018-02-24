@@ -2,6 +2,7 @@
   "name": "flickr_feed",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://henziger.se/flickr",
   "dependencies": {
     "axios": "^0.17.1",
     "font-awesome": "^4.7.0",
