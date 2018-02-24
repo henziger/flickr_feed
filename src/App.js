@@ -17,17 +17,18 @@ class App extends Component {
       image_links: new Set(),
       new_images: 0,
       query: "",
+      searchfield: "",
     };
-
-    this.handler = this.handler.bind(this);
-    this.setQuery = this.setQuery.bind(this);
-    this.makeQuery = this.makeQuery.bind(this);
   }
 
-  handler(index) {this.setState({image: index})}
+  setImage(index) {
+    if (index !== undefined)
+      window.location.hash = index;
+    this.setState({image: index})
+  }
 
-  setQuery(event) {
-    this.setState({query: event.target.value});
+  updateField(event) {
+    this.setState({searchfield: event.target.value});
   }
 
   getQuery() {
@@ -35,44 +36,46 @@ class App extends Component {
   }
 
   makeQuery(event) {
-    this.getImageFeed();
+    this.setState({query: this.state.searchfield}, this.getImageFeed);
     event.preventDefault();
   }
 
-  getImageFeed() {
+  makeApiRequest(onOkay) {
     axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
-      .then((response) => {
-        this.setState({
-          items: response.data.items,
-          image_links: new Set(response.data.items.map(item => item.link))
-        })
+      .then(response => {
+        onOkay(response)
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(err => {
+        console.log(err);
       });
-    return false;
+  }
+
+  getImageFeed() {
+    this.makeApiRequest(response => {
+      this.setState({
+        items: response.data.items,
+        image_links: new Set(response.data.items.map(item => item.link))
+      })
+    })
   }
 
   extendImageFeed() {
-    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
-      .then((response) => {
-        this.setState({
-          items: [...response.data.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
-          image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)]),
-          new_images: 0,
-        })
+    this.makeApiRequest(response => {
+      this.setState({
+        items: [...response.data.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
+        image_links: new Set([...this.state.image_links, ...response.data.items.map(item => item.link)]),
+        new_images: 0,
       })
-      .catch((err) => {
-        console.log(err)
-      });
-    return false;
+    })
   }
 
   checkForNewImages() {
-    axios.get(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
-      .then((response) => {
+    if (this.state.new_images >= 20)
+      return;
 
-        let i = this.state.new_images;
+    this.makeApiRequest(response => {
+
+        let i = 0;
         response.data.items.forEach(item => {
           if (!this.state.image_links.has(item.link)) {
             i++;
@@ -83,15 +86,15 @@ class App extends Component {
           new_images: i,
         })
       })
-      .catch((err) => {
-        console.log(err)
-      });
   }
 
   componentDidMount() {
     this.getImageFeed();
     this.searchBar.focus();
-    setInterval(() => this.checkForNewImages(), 1000)
+    setInterval(() => this.checkForNewImages(), 5000);
+    window.onpopstate = (event) => {
+      this.setState({ image: parseInt(window.location.hash.substring(1), 10) || undefined });
+    };
   }
 
   render() {
@@ -117,7 +120,7 @@ class App extends Component {
                            published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
                            link={image.link}
                            tags={image.tags.split(" ")}
-                           goBack={() => this.handler(undefined)}
+                           goBack={() => this.setImage(undefined)}
           />
         </div>
     } else {
@@ -134,7 +137,7 @@ class App extends Component {
                   author={image.author}
                   published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
                   link={image.link}
-                  setImage={() => this.handler(index)}
+                  setImage={() => this.setImage(index)}
                 />)}
             </ul>
           </div>
@@ -146,8 +149,8 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title align-header">Flickr Public Feed</h1>
           <div className="search-container">
-            <form onSubmit={this.makeQuery}>
-              <input className="search-field" type="text" value={this.state.query} onChange={this.setQuery}
+            <form onSubmit={(event) => this.makeQuery(event)}>
+              <input className="search-field" type="text" value={this.state.searchfield} onChange={(event) => this.updateField(event)}
                      placeholder={"Search"}
                      ref={(input) => { this.searchBar = input; }}
               />
