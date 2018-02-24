@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetchJsonp from 'fetch-jsonp';
 import moment from 'moment';
 import './App.css';
 
@@ -40,12 +41,15 @@ class App extends Component {
   }
 
   makeApiRequest(onOkay) {
-    fetch(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json&nojsoncallback=true`)
+    fetchJsonp(`https://api.flickr.com/services/feeds/photos_public.gne?tags=${this.getQuery()}&tagmode=all&format=json`,
+      {
+        jsonpCallback: 'jsoncallback',
+      })
       .then(results => {
         return results.json();
       })
-      .then(response => {
-        onOkay(response)
+      .then(json => {
+        onOkay(json)
       })
       .catch(err => {
         console.log(err);
