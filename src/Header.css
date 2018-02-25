@@ -1,44 +1,76 @@
+/* Smartphones and such */
+@media (max-width: 500px) {
+    .App-header {
+        height: 120px;
+        flex-direction: column;
+    }
+
+    .align-header {
+        margin: auto;
+    }
+}
+
+/* Medium devices (501px up to 700px) */
+@media (min-width: 501px) {
+    .App-header {
+        height: 100px;
+        padding: 20px;
+    }
+
+    .align-header {
+        margin: auto 40px auto auto;
+        padding: 10px;
+    }
+
+    .search-container {
+        margin: auto 40px auto auto;
+    }
+
+    .search-button {
+        margin-right: 16px;
+    }
+}
+
+/* Large devices (701px and up) */
+@media (min-width: 601px) {
+    .App-header {
+        height: 80px;
+        padding: 20px;
+    }
+}
+
 .App-header {
     background-color: #222;
-    height: 80px;
-    padding: 20px;
     color: white;
-    display: flex;
     justify-content: flex-start;
+    display: flex;
 }
 
 .App-title {
     font-size: 1.5em;
 }
 
-.align-header {
-    margin: auto 40px auto auto;
-    padding: 10px;
-}
-
 .search-container {
     margin: auto;
-    padding: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
-.search-container input {
+.search-field {
+    border: none;
     padding: 6px;
-    margin-top: 8px;
     font-size: 17px;
-    border: none;
 }
 
-.search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
+.search-button {
     background: #ddd;
+    color: #222;
+    float: right;
     font-size: 17px;
-    border: none;
     cursor: pointer;
+    padding: 8px 10px;
 }
 
-.search-container button:hover {
+.search-button:hover {
     background: #ccc;
 }

@@ -1,29 +1,12 @@
 /* Small devices (800px and lower) */
 @media (max-width: 800px) {
-    .App-header {
-        background-color: #222;
-        height: 150px;
-        padding: 20px;
-        color: white;
-    }
-
-    .App-intro {
-        font-size: large;
-    }
-
     .image-list, .image-detail-pane {
         max-width: 600px;
     }
-
 }
 
 /* Medium devices (800px and up) */
 @media (min-width: 800px) {
-
-    .App-intro {
-        font-size: large;
-    }
-
     .image-list, .image-detail-pane {
         max-width: 900px;
     }
