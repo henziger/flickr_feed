@@ -11,7 +11,7 @@ class Header extends Component {
     return (
       <div className="App-header">
         <div className="App-title align-header">Flickr Public Feed</div>
-        <div className="search-container">
+        <form className="search-container" onSubmit={this.props.makeQuery}>
           <input className="search-field" type="text" value={this.props.searchField} onChange={this.props.updateField}
                  placeholder={"Search"}
                  ref={(input) => { this.searchBar = input; }}
@@ -19,7 +19,7 @@ class Header extends Component {
           <div className="search-button" onClick={this.props.makeQuery}>
             <i className="fa fa-search"/>
           </div>
-        </div>
+        </form>
       </div>
     )
   }
