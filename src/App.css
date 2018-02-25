@@ -7,10 +7,6 @@
         color: white;
     }
 
-    .App-title {
-        font-size: 1.5em;
-    }
-
     .App-intro {
         font-size: large;
     }
@@ -23,19 +19,6 @@
 
 /* Medium devices (800px and up) */
 @media (min-width: 800px) {
-
-    .App-header {
-        background-color: #222;
-        height: 80px;
-        padding: 20px;
-        color: white;
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .App-title {
-        font-size: 1.5em;
-    }
 
     .App-intro {
         font-size: large;
@@ -58,37 +41,6 @@
     background-color: #e6ecf0;
 }
 
-.align-header {
-    margin: auto 40px auto auto;
-    padding: 10px;
-}
-
-.search-container {
-    margin: auto;
-    padding: 10px;
-}
-
-.search-container input {
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 17px;
-    border: none;
-}
-
-.search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
-}
-
-.search-container button:hover {
-    background: #ccc;
-}
 
 ul {
     padding: 0;

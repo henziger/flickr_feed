@@ -3,6 +3,7 @@ import fetchJsonp from 'fetch-jsonp';
 import moment from 'moment';
 import './App.css';
 
+import Header from './Header.js';
 import ImageDetailPane from './ImageDetailPane.js';
 import ImageListItem from './ImageListItem.js';
 
@@ -24,6 +25,8 @@ class App extends Component {
   setImage(index) {
     if (index !== undefined)
       window.location.hash = index;
+    else
+      window.location.hash = "";
     this.setState({image: index})
   }
 
@@ -32,6 +35,7 @@ class App extends Component {
   }
 
   getQuery() {
+    // Prevent non-tagged queries. Bug or feature? Depends on who you're asking :)
     return this.state.query || "potato";
   }
 
@@ -57,32 +61,34 @@ class App extends Component {
   }
 
   getImageFeed() {
-    this.makeApiRequest(response => {
+    this.makeApiRequest(json => {
       this.setState({
-        items: response.items,
-        image_links: new Set(response.items.map(item => item.link))
+        items: json.items,
+        image_links: new Set(json.items.map(item => item.link))
       })
     })
   }
 
   extendImageFeed() {
-    this.makeApiRequest(response => {
+    this.makeApiRequest(json => {
       this.setState({
-        items: [...response.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
-        image_links: new Set([...this.state.image_links, ...response.items.map(item => item.link)]),
+        items: [...json.items.filter(item => !this.state.image_links.has(item.link)), ...this.state.items],
+        image_links: new Set([...this.state.image_links, ...json.items.map(item => item.link)]),
         new_images: 0,
       })
     })
   }
 
   checkForNewImages() {
+    // The Flickr API will only fetch 20 images, so we pretend that there will only ever be
+    // at most 20 new images.
     if (this.state.new_images >= 20)
       return;
 
-    this.makeApiRequest(response => {
+    this.makeApiRequest(json => {
 
         let i = 0;
-        response.items.forEach(item => {
+        json.items.forEach(item => {
           if (!this.state.image_links.has(item.link)) {
             i++;
           }
@@ -96,7 +102,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getImageFeed();
-    this.searchBar.focus();
     setInterval(() => this.checkForNewImages(), 5000);
     window.onpopstate = (event) => {
       this.setState({ image: parseInt(window.location.hash.substring(1), 10) || undefined });
@@ -131,41 +136,28 @@ class App extends Component {
         </div>
     } else {
       main =
-        <div>
-          <div className="image-list">
-            <ul>
-              { new_images_link }
-              { this.state.items.map((image, index) =>
-                <ImageListItem
-                  key={index}
-                  media={image.media.m} title={image.title}
-                  authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
-                  author={image.author}
-                  published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
-                  link={image.link}
-                  setImage={() => this.setImage(index)}
-                />)}
-            </ul>
-          </div>
+        <div className="image-list">
+          <ul>
+            { new_images_link }
+            { this.state.items.map((image, index) =>
+              <ImageListItem
+                key={index}
+                media={image.media.m} title={image.title}
+                authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
+                author={image.author}
+                published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
+                link={image.link}
+                setImage={() => this.setImage(index)}
+              />)}
+          </ul>
         </div>
     }
 
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title align-header">Flickr Public Feed</h1>
-          <div className="search-container">
-            <form onSubmit={(event) => this.makeQuery(event)}>
-              <input className="search-field" type="text" value={this.state.searchfield} onChange={(event) => this.updateField(event)}
-                     placeholder={"Search"}
-                     ref={(input) => { this.searchBar = input; }}
-              />
-              <button type="submit">
-                <i className="fa fa-search" />
-              </button>
-            </form>
-          </div>
-        </header>
+        <Header makeQuery={(event) => this.makeQuery(event)}
+                updateField={(event) => this.updateField(event)}
+        />
         {main}
       </div>
     );
