@@ -63,6 +63,7 @@ class App extends Component {
     this.makeApiRequest(json => {
       this.setState({
         items: json.items,
+        image: undefined,
         image_links: new Set(json.items.map(item => item.link))
       })
     })
@@ -123,16 +124,14 @@ class App extends Component {
     if (this.state.image !== undefined) {
       let image = this.state.items[this.state.image];
       main =
-        <div className="image-detail-pane">
-          <ImageDetailPane media={image.media.m} title={image.title}
-                           authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
-                           author={image.author}
-                           published={image.published}
-                           link={image.link}
-                           tags={image.tags.split(" ")}
-                           goBack={() => this.setImage(undefined)}
-          />
-        </div>
+        <ImageDetailPane media={image.media.m} title={image.title}
+                         authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
+                         author={image.author}
+                         published={image.published}
+                         link={image.link}
+                         tags={image.tags.split(" ")}
+                         goBack={() => this.setImage(undefined)}
+        />
     } else {
       main =
         <div className="image-list">

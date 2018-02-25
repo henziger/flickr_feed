@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import MediaQuery from 'react-responsive';
+
 import './ImageDetailPane.css';
+import PublishDate from './PublishDate';
 import getAuthorName from './helpers';
 
 class ImageDetailPane extends Component {
@@ -10,22 +13,34 @@ class ImageDetailPane extends Component {
   render () {
 
     return (
-      <div>
-        <div className="imageHeaderContainer">
-          <div className="imageDetailTitle">
-            <a href={this.props.link}><h2 >{this.props.title}</h2></a>
-            <a href={this.props.authorUrl}>{getAuthorName(this.props.author)}</a> | Published: {this.props.published}
+      <div className="image-detail-pane">
+        <div className="image-header-container">
+          <div className="image-detail-title">
+            <a href={this.props.link}><h2 className="image-detail-header">{this.props.title}</h2></a>
+            <MediaQuery query="(max-width: 500px)">
+              <div className="image-detail-meta">
+                <a href={this.props.authorUrl}>{getAuthorName(this.props.author)}</a>
+                <PublishDate published={this.props.published}/>
+              </div>
+            </MediaQuery>
+            <MediaQuery query="(min-width: 501px)">
+              <div className="image-detail-meta">
+                <a href={this.props.authorUrl}>{getAuthorName(this.props.author)}</a>
+                <div>&nbsp;|&nbsp;</div>
+                <PublishDate published={this.props.published}/>
+              </div>
+            </MediaQuery>
           </div>
 
-          <button className="backButton" onClick={this.props.goBack}>Back</button>
+          <button className="back-button" onClick={this.props.goBack}>Back</button>
 
         </div>
 
-        <div className="imageBodyContainer">
-          <div className="imageDetailPreview">
+        <div className="image-body-container">
+          <div className="image-detail-preview">
             <img src={this.props.media} alt={this.props.title}/>
           </div>
-          <div className="imageDescription">
+          <div className="image-description">
             <div>
               <p>{this.lorem1}</p>
               <p>{this.lorem2}</p>

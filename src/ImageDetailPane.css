@@ -1,21 +1,104 @@
-.imageHeaderContainer {
+/* Smartphones and such */
+@media (max-width: 500px) {
+
+    .image-detail-pane {
+        width: 95%;
+        margin-top: 10px;
+    }
+
+    .image-header-container {
+        flex-direction: column;
+        margin-left: 10px;
+    }
+
+    .image-body-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .image-detail-preview {
+        margin-top: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .image-detail-meta {
+        flex-direction: column;
+    }
+
+    .image-description {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .back-button {
+        width: 30%;
+    }
+}
+
+/* Medium devices (501px up to 600px) */
+@media (min-width: 501px) {
+    .image-header-container {
+        flex-direction: row;
+    }
+
+    .image-detail-preview {
+        margin-top: 20px;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+
+    .image-detail-meta {
+        flex-direction: row;
+    }
+
+}
+
+/* Large devices (601px and up) */
+@media (min-width: 601px) {
+    .image-header-container {
+        flex-direction: row;
+    }
+
+    .image-detail-preview {
+        margin-top: 20px;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+
+    .image-detail-title {
+        margin-left: 10px;
+    }
+
+    .back-button {
+        margin-right: 20px;
+    }
+}
+
+.image-header-container {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
     align-items: stretch;
     justify-content: space-between;
 }
 
-.imageDetailTitle {
-    width: 500px;
+.image-detail-title {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 10px;
 }
 
-.backButton {
+.image-detail-header {
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-right: 20px;
+}
+
+.image-detail-meta {
+    display: flex;
+}
+
+
+.back-button {
     margin-top: 20px;
     padding: 5px 20px;
     height: 20%;
@@ -28,29 +111,23 @@
     transition-duration: 0.4s;
 }
 
-.backButton:hover {
+.back-button:hover {
     background-color: cornflowerblue; /* Green */
     color: white;
 }
 
-.imageBodyContainer {
+.image-body-container {
     display: flex;
     justify-content: flex-start;
 }
 
-.imageDetailPreview {
+.image-detail-preview {
     position: relative;
-    width: 200px;
-    height: 120px;
     overflow: hidden;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: 10px;
+    flex: none;
 }
 
-.imageDescription {
-    flex-shrink: 2;
-    margin-right: 20px;
+.image-description {
     margin-bottom: 10px;
 }
 
