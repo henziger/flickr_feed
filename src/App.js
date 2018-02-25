@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import fetchJsonp from 'fetch-jsonp';
-import moment from 'moment';
 import './App.css';
 
 import Header from './Header.js';
@@ -128,7 +127,7 @@ class App extends Component {
           <ImageDetailPane media={image.media.m} title={image.title}
                            authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
                            author={image.author}
-                           published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
+                           published={image.published}
                            link={image.link}
                            tags={image.tags.split(" ")}
                            goBack={() => this.setImage(undefined)}
@@ -145,7 +144,7 @@ class App extends Component {
                 media={image.media.m} title={image.title}
                 authorUrl={`https://www.flickr.com/photos/${image.author_id}/`}
                 author={image.author}
-                published={moment(image.published).format("Do MMM YYYY [at] HH:mm")}
+                published={image.published}
                 link={image.link}
                 setImage={() => this.setImage(index)}
               />)}

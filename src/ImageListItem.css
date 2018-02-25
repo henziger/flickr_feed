@@ -1,12 +1,51 @@
-.container {
-    display: flex;
-    justify-content: flex-start;
+/* Smartphones and such */
+@media (max-width: 500px) {
+
+    .image-summary {
+        margin-left: 10px;
+    }
+
+    .image-date {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .image-meta > div {
+        margin: 10px auto auto 0;
+    }
+}
+
+/* Medium devices (501px up to 600px) */
+@media (min-width: 501px) {
+    .image-summary {
+        margin-left: 20px;
+    }
+
+    .image-title {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Large devices (601px and up) */
+@media (min-width: 601px) {
+    .image-summary {
+        margin-left: 40px;
+    }
+
+    .image-meta > div {
+        float: left;
+        margin-right: 20px;
+    }
 }
 
 .image-item {
     background-color: #fff;
     border-width: 2px;
     border-bottom: 2px #cccccc solid;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .image-item:hover {
@@ -14,11 +53,15 @@
 }
 
 .image-summary {
-    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
-.image-meta > div {
+
+.image-meta {
+    display: flex;
+    flex-direction: row;
     float: left;
-    margin-right: 20px;
 }
 
 .image-preview {
@@ -31,10 +74,11 @@
     justify-content: center;
     background: #222222;
     cursor: pointer;
+    flex: none;
 }
 
 .image-title {
-    width: 500px;
+    font-size: 1.5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

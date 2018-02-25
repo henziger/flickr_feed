@@ -10,7 +10,7 @@
     }
 }
 
-/* Medium devices (501px up to 700px) */
+/* Medium devices (501px up to 600px) */
 @media (min-width: 501px) {
     .App-header {
         height: 100px;
@@ -31,7 +31,7 @@
     }
 }
 
-/* Large devices (701px and up) */
+/* Large devices (601px and up) */
 @media (min-width: 601px) {
     .App-header {
         height: 80px;
