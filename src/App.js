@@ -26,7 +26,8 @@ class App extends Component {
       window.location.hash = index;
     else
       window.location.hash = "";
-    this.setState({image: index})
+
+    this.setState({image: index}, window.scrollTo(0,0))
   }
 
   updateField(event) {
@@ -104,7 +105,7 @@ class App extends Component {
     this.getImageFeed();
     setInterval(() => this.checkForNewImages(), 5000);
     window.onpopstate = (event) => {
-      this.setState({ image: parseInt(window.location.hash.substring(1), 10) || undefined });
+      this.setImage(parseInt(window.location.hash.substring(1), 10) || undefined);
     };
   }
 
