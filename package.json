@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.0",
-    "react-scripts": "1.1.1",
-    "sass-loader": "^6.0.7"
+    "react-scripts": "1.1.4",
+    "sass-loader": "^7.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
